@@ -15,7 +15,7 @@ RUN apt-get install -y build-essential
 RUN pip install --upgrade pip
 
 # Install production dependencies.
-RUN pip install gunicorn Flask praw nltk firebase_admin
+RUN pip install gunicorn Flask praw nltk firebase_admin google-cloud-secret-manager
 RUN python vader_setup.py
 # Run the web service on container startup. Here we use the gunicorn
 # webserver, with one worker process and 8 threads.

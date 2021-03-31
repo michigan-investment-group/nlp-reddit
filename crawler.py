@@ -9,13 +9,11 @@ from firebase_admin import credentials, firestore
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 
-credential_path = Path('firebase.json').resolve()
-key_path = Path('key.json').resolve()
-cred = credentials.Certificate(str(credential_path))
+twitter_keys = helpers.access_secret_version('TWITTER_KEYS')
+firebase_key_secret = helpers.access_secret_version('FIREBASE_KEY')
+keys = helpers.access_secret_version('API_KEYS')
 
-with open(key_path) as f:
-    keys = json.load(f)
-
+cred = credentials.Certificate(firebase_key_secret)
 firebase_app = firebase_admin.initialize_app(cred, name='reddit')
 client = firestore.client(firebase_app)
 
