@@ -10,11 +10,10 @@ James Doredla, Julian Tarazi, Benjamin Oostendorp, Stephen Hajjar, Brandon Fan
 import os
 import time
 from flask import Flask, request, make_response, jsonify
-from flask_cors import CORS
 from crawler import RedditCrawler
 import logging
 app = Flask(__name__)
-CORS(app)
+
 
 reddit = RedditCrawler()
 

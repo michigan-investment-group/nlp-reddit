@@ -1,6 +1,5 @@
 # Helper functions
 import urllib
-import json
 from requests import request
 
 FINANCE_URL = 'https://financialmodelingprep.com/api/v3/'
@@ -48,6 +47,3 @@ def upload(client, ticker, posts):
             batch.set(ref, post)
         batch.commit()
     return
-
-    
-    

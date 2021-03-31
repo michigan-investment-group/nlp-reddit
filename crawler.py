@@ -1,10 +1,8 @@
 # Script to scrape data off Reddit
 import praw
 import json
-import time
 import helpers as helpers
 
-from datetime import datetime
 from pathlib import Path
 import firebase_admin
 from firebase_admin import credentials, firestore
