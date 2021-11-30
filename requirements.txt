@@ -78,7 +78,6 @@ scipy==1.6.1
 segtok==1.5.10
 selenium==3.141.0
 sentencepiece==0.1.91
-setuptools==52.0.0.post20210125
 six==1.15.0
 smart-open==4.2.0
 sqlitedict==1.7.0
