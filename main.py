@@ -1,8 +1,5 @@
-import os
-import time
 from flask import Flask, request, make_response, jsonify
 from crawler import RedditCrawler
-import logging
 app = Flask(__name__)
 
 
