@@ -9,6 +9,8 @@ James Doredla, Julian Tarazi, Benjamin Oostendorp, Stephen Hajjar, Brandon Fan
 
 import os
 import time
+import nltk
+nltk.download('vader_lexicon')
 from flask import Flask, request, make_response, jsonify
 from crawler import RedditCrawler
 import logging
