@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: reddit-collection
+  labels:
+    app: reddit
+spec:
+  schedule: "0 4 * * *"
+  startingDeadlineSeconds: 100
+  concurrencyPolicy: Replace
+  successfulJobsHistoryLimit: 5
+  failedJobsHistoryLimit: 10
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: reddit
+        spec:
+          containers:
+          - name: reddit
+            image: us-central1-docker.pkg.dev/mig-platform/data-collection-repos/reddit:197ad054cea5282c8d41339e2684745f71801555
+            imagePullPolicy: IfNotPresent
+          restartPolicy: OnFailure
