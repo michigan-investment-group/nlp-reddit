@@ -1,0 +1,1 @@
+gcloud builds submit . -t us-central1-docker.pkg.dev/mig-platform/data-collection-repos/reddit:latest
