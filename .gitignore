@@ -6,7 +6,7 @@ log.log
 **/node_modules
 *.pyc
 firebase.json
-key.json
+keys.json
 *.vsix
 **/.vscode/.ropeproject/**
 **/testFiles/**/.cache/**

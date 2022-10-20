@@ -7,19 +7,6 @@ from requests import request
 FINANCE_URL = 'https://financialmodelingprep.com/api/v3/'
 PROJECT_ID = 'mig-platform'
 
-def access_secret_version(secret_id, version_id="latest"):
-    # Create the Secret Manager client.
-    client = secretmanager.SecretManagerServiceClient()
-
-    # Build the resource name of the secret version.
-    name = f"projects/{PROJECT_ID}/secrets/{secret_id}/versions/{version_id}"
-
-    # Access the secret version.
-    response = client.access_secret_version(name=name)
-
-    # Return the decoded payload.
-    return json.loads(response.payload.data.decode('UTF-8'))
-
 def make_url(base_url , *res, **params):
     url = base_url
     for r in res:

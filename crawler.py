@@ -2,20 +2,24 @@
 import praw
 import json
 import helpers as helpers
+from uuid import uuid4
 
 from pathlib import Path
 import firebase_admin
-from firebase_admin import credentials, firestore
+from firebase_admin import credentials, firestore, storage
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 
-twitter_keys = helpers.access_secret_version('TWITTER_KEYS')
-firebase_key_secret = helpers.access_secret_version('FIREBASE_KEY')
-keys = helpers.access_secret_version('API_KEYS')
+keys = {
+    'hf_key': 'api_QBEvzoutRNsLTridfiEvmDwHBHtnMwDOHk',
+    'finance_key': 'f913bbd3dad0c411c864c0d960a711e7'
+}
 
-cred = credentials.Certificate(firebase_key_secret)
+cred = credentials.Certificate('./keys.json')
+
 firebase_app = firebase_admin.initialize_app(cred, name='reddit')
 client = firestore.client(firebase_app)
+storage = storage.client(firebase_app)
 
 CLIENT_ID = keys['reddit']['client_id']
 CLIENT_SECRET = keys['reddit']['client_secret']
@@ -53,7 +57,7 @@ class RedditCrawler:
         target_subreddit = self.reddit.subreddit(subreddit)
         hot_posts = target_subreddit.hot(limit=HOT_POST_COUNT)
 
-        db_writes = {}
+        results = {}
 
         for post in hot_posts:
             title = post.title 
@@ -83,9 +87,15 @@ class RedditCrawler:
                         'text_sentiment': text_scores,
                         'url': url,
                     }
-                    if stock not in db_writes:
-                        db_writes[stock] = [reddit_post_obj]
+                    if stock not in results:
+                        results[stock] = [reddit_post_obj]
                     else:
-                        db_writes[stock].append(reddit_post_obj)
+                        results[stock].append(reddit_post_obj)
         
-        return self._upload_data(db_writes)
+        file_path = "reddit-" + uuid4() + ".json"
+        with open(file_path, "w") as f:
+            json.dump(f, results)
+        
+        bucket = storage.bucket() # storage bucket
+        blob = bucket.blob(file_path)
+        return blob.upload_from_filename(file_path)
